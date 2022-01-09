@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Higher/Lower</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+        <!-- https://scrimba.com/learn/frontend/build-a-modal-rgba-colors-cywNWbT3 -->
+        <div id="overlay">
+            <div id="modal">
+                <h2 class="win-lose">You won!</h2>
+                <button class="btn btn-win-lose">New game/Next game</button>
+                
+                <div class="modal-settings">
+                    <div class="settings-decks">
+                        <label for="decks">Amount of decks:</label>
+                        <input type="text" name="decks" id="decks">
+                    </div>
+                    <div class="settings-cards">
+                        <label for="cards">Amount of cards on table:</label>
+                        <input type="text" name="cards" id="cards">
+                    </div>
+                </div>
+
+                <!-- https://scrimba.com/scrim/co59341468dbaf7a9c6aa5816?pl=p5aVnfG -->
+                <button class="modal-btn-close" id="modal-btn-close">
+                    <span><i class="fas fa-times-circle"></i></span></button>                
+                </button>
+            </div>
+        </div>
+
+    <header>
+        <div class="container">
+            <h1>
+                Higher ⬆ Lower ⬇
+            </h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="streak">
+                <p class="streak-current">Current streak: <span class="streak-current-value">5</span></p>
+                <p class="streak-longest">Longest streak: <span class="streak-longest-value">12</span></p>
+            </section>
+
+            <section class="play-area play-area-flex">
+                <div class="play-area-buttons">
+                    <button class="btn btn-higher">
+                        Higher
+                    </button>
+                    <button class="btn btn-lower">
+                        Lower
+                    </button>
+                </div>
+
+                <div class="play-area-chances">
+                    <button class="btn btn-show-hide" data-chances="hide">Reveal chances <span><i class="far fa-eye"></i> </span></button>
+                </div>
+
+                <div class="play-area-cards">
+                    <div class="card last-card">
+                        <img src="../images/desktop/card.png" alt="10 of spades">
+                    </div>
+                    <div class="card current-card">
+                        <img src="../images/desktop/card.png" alt="10 of spades">
+                    </div>
+                    <div class="card next-card">
+                        <img src="../images/back.png" alt="The red back of a card">
+                    </div>
+                    <div class="card hide-card">
+                        <img src="../images/back.png" alt="The blue back of a card">
+                    </div>
+                    <div class="card hide-card">
+                        <img src="../images/back.png" alt="The blue back of a card">
+                    </div>
+                    <div class="card hide-card">
+                        <img src="../images/back.png" alt="The blue back of a card">
+                    </div>
+                    <div class="card hide-card">
+                        <img src="../images/back.png" alt="The blue back of a card">
+                    </div>
+                    <div class="card hide-card">
+                        <img src="../images/back.png" alt="The blue back of a card">
+                    </div>
+                    <div class="card hide-card">
+                        <img src="../images/back.png" alt="The blue back of a card">
+                    </div>
+                    <div class="card hide-card">
+                        <img src="../images/back.png" alt="The blue back of a card">
+                    </div>
+                    </div>
+                    <div class="card hide-card">
+                        <img src="../images/back.png" alt="The blue back of a card">
+                    </div>
+                    </div>
+                    <div class="card hide-card">
+                        <img src="../images/back.png" alt="The blue back of a card">
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+    
+    <script src="../js/app.js"></script>
+</body>
+</html>
