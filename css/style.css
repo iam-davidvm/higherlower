@@ -3,12 +3,92 @@
     padding: 0;
 }
 
+body {
+    background: url('../images/pattern.png') repeat;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
 img {
     max-width: 100%;
 }
+
+/*########
+GENERAL LAY-OUT
+########*/
 
 .container {
     max-width: 1500px;
     width: 90%;
     margin: 0 auto;
+}
+
+header {
+    text-align: center;
+}
+
+.btn {
+    border-radius: 5px;
+    padding: 1em 2em;
+    border: none;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.play-area {
+    border-radius: 10px;
+    border: 1px solid lightgray;
+    background: rgba(235, 235, 235, .5);
+    padding: 3em;
+}
+
+/*########
+TYPOGRAPHY
+########*/
+
+h1 {
+    padding: 3em 0;
+    line-height: 1.2;
+}
+
+h2 {
+    line-height: 1.4;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+/*########
+INDEX-PAGE
+########*/
+.btn-continue {
+    margin-bottom: 2em;
+}
+
+ul {
+    padding-left: 2em;
+    margin-bottom: 1em;
+}
+
+.index-settings {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .5em;
+    margin-bottom: 2em;
+}
+
+
+.index-settings select,
+.index-settings label {
+    display: block;
+}
+
+.index-settings label {
+    margin-bottom: .5em;
+}
+
+.index-settings select {
+    padding: 1em;
 }

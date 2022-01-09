@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Higher/Lower</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -30,20 +31,26 @@
                 <p>If you manage to guess everything correctly, you win. Else you lose.</p>
 
                 <h2>Other rules</h2>
-                <ol>
-                    <ul>The ace card has a value of 1</ul>
-                    <ul>If the next card has the same value, the game goes on</ul>
-                </ol>
+                <ul>
+                    <li>The ace card has a value of 1</li>
+                    <li>If the next card has the same value, the game goes on</li>
+                </ul>
 
                 <h2>Settings</h2>
                 <div class="index-settings">
-                    <div class="settings-decks">
-                        <label for="decks">Amount of decks:</label>
-                        <input type="text" name="decks" id="decks">
+                    <div class="settings settings-decks">
+                        <label>Amount of decks:</label>
+                        <select name="decks" id="decks">
+                            <option value="one">1 (52 cards)</option>
+                            <option value="two">2 (104 cards)</option>
+                        </select>
                     </div>
-                    <div class="settings-cards">
+                    <div class="settings settings-cards">
                         <label for="cards">Amount of cards on table:</label>
-                        <input type="text" name="cards" id="cards">
+                        <select name="cards" id="cards">
+                            <option value="five">5</option>
+                            <option value="eleven">11</option>
+                        </select>
                     </div>
                 </div>
                 <button class="btn btn-new">
