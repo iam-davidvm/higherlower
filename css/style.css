@@ -43,6 +43,11 @@ header {
     padding: 3em;
 }
 
+.hide,
+.fa-arrow-up,
+.fa-arrow-down {
+    display: none;
+}
 /*########
 TYPOGRAPHY
 ########*/
@@ -91,4 +96,252 @@ ul {
 
 .index-settings select {
     padding: 1em;
+}
+
+/*########
+MODAL
+########*/
+
+#modal {
+    background-color: white;
+    max-width: 600px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 2em;
+    position: relative;
+    top: 30%;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#overlay {
+    display: none; /*none default, to change to block with js*/
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-btn-close {
+    position: absolute;
+    right: .5em;
+    top: .5em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transform: scale(1);
+    transition: transform 180ms ease-in-out;
+}
+
+.modal-btn-close:focus,
+.modal-btn-close:hover {
+    transform: scale(1.2);
+}
+
+.win-lose {
+    margin-bottom: 1.5em;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.btn-win-lose {
+    margin-bottom: 3em;
+}
+
+.modal-settings {
+    display: flex;
+    text-align: left;
+    justify-content: space-between;
+}
+
+.modal-settings label {
+    font-weight: 700;
+    margin-bottom: 1em;
+}
+
+.modal-settings select {
+    width: 90%;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+/*########
+GAME AREA
+########*/
+
+.streak {
+    display: flex;
+    justify-content: space-between;
+}
+
+.play-area-flex {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding-bottom: 5em;
+}
+
+.play-area-buttons {
+    flex-basis: 50%;
+    margin-bottom: 2em;
+}
+
+.chances {
+    margin-left: 1em;
+    display: inline-block;
+}
+
+.play-area-chances {
+    margin-left: auto;
+    margin-bottom: 2em;
+}
+
+.play-area-cards {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.first-row {
+    margin-bottom: 1em;
+}
+
+.card {
+    width: 15%;
+}
+
+@media (max-width: 850px) {
+    .play-area-flex {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .play-area-buttons {
+        flex-basis: 100%;
+        margin-bottom: 4em;
+    }
+
+    .play-area-chances {
+        order: 10;
+        margin-top: 4em;
+        margin-bottom: 0;
+        margin-left: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chances {
+        order: -1;
+    }
+
+    .card {
+        width: 100%;
+    }
+    .hide-card {
+        display: none;
+    }
+
+    .current-card {
+        transform: scale(1.2);
+    }
+
+    #modal {
+        overflow: visible;
+        max-width: 440px;
+        width: 80%;
+    }
+
+    .modal-settings {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+
+}
+
+@media (max-width: 490px) {
+    h1 {
+        padding: 1em;
+        font-size: 1.5rem;
+    }
+
+    .streak {
+        flex-direction: column;
+    }
+
+    .streak-current {
+        margin-bottom: 0;
+    }
+
+
+    .play-area  {
+        padding: 2em;
+    }
+
+    .play-area-flex{
+        padding-bottom: 1em;
+    }
+
+    .play-area-cards {
+        width: auto;
+    }
+
+    .last-card {
+        display: none;
+    }
+
+    .current-card {
+        transform: scale(1);
+    }
+
+    .next-card {
+        display: none;
+    }
+
+    .play-area-buttons {
+        order: 99;
+        margin: 1em 0;
+    }
+
+    .play-area-chances {
+        order: -1;
+        margin: 0 0 2em;
+    }
+
+    .play-area-chances {
+        flex-direction: row;
+    }
+
+    .chances {
+        order: 99;
+        padding-top: 1em;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .fa-arrow-up,
+    .fa-arrow-down {
+        display: inline;
+        font-size: 2.4rem;
+    }
+
+    #modal {
+        max-width: 275px;
+        width: 80%;
+    }    
+    
+    .modal-btn-close {
+        top: 1em;
+        right: 1em;
+    }
 }

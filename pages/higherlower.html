@@ -20,11 +20,17 @@
                 <div class="modal-settings">
                     <div class="settings-decks">
                         <label for="decks">Amount of decks:</label>
-                        <input type="text" name="decks" id="decks">
+                        <select name="decks" id="decks">
+                            <option value="one">1 (52 cards)</option>
+                            <option value="two">2 (104 cards)</option>
+                        </select>
                     </div>
                     <div class="settings-cards">
                         <label for="cards">Amount of cards on table:</label>
-                        <input type="text" name="cards" id="cards">
+                        <select name="cards" id="cards">
+                            <option value="five">5</option>
+                            <option value="eleven">11</option>
+                        </select>
                     </div>
                 </div>
 
@@ -53,18 +59,19 @@
             <section class="play-area play-area-flex">
                 <div class="play-area-buttons">
                     <button class="btn btn-higher">
-                        Higher
+                        <span class="desktop">Higher </span><i class="fas fa-arrow-up"></i>
                     </button>
                     <button class="btn btn-lower">
-                        Lower
+                        <span class="desktop">Lower </span><i class="fas fa-arrow-down"></i>
                     </button>
                 </div>
 
                 <div class="play-area-chances">
                     <button class="btn btn-show-hide" data-chances="hide">Reveal chances <span><i class="far fa-eye"></i> </span></button>
+                    <p class="chances">75% higher</p>
                 </div>
 
-                <div class="play-area-cards">
+                <div class="play-area-cards first-row">
                     <div class="card last-card">
                         <img src="../images/desktop/card.png" alt="10 of spades">
                     </div>
@@ -72,36 +79,36 @@
                         <img src="../images/desktop/card.png" alt="10 of spades">
                     </div>
                     <div class="card next-card">
-                        <img src="../images/back.png" alt="The red back of a card">
+                        <img src="../images/back-red.png" alt="The red back of a card">
                     </div>
                     <div class="card hide-card">
-                        <img src="../images/back.png" alt="The blue back of a card">
+                        <img src="../images/back-blue.png" alt="The blue back of a card">
                     </div>
                     <div class="card hide-card">
-                        <img src="../images/back.png" alt="The blue back of a card">
+                        <img src="../images/back-blue.png" alt="The blue back of a card">
                     </div>
                     <div class="card hide-card">
-                        <img src="../images/back.png" alt="The blue back of a card">
+                        <img src="../images/back-blue.png" alt="The blue back of a card">
+                    </div>
+                </div> 
+                <div class="play-area-cards second-row">
+                    <div class="card hide-card">
+                        <img src="../images/back-blue.png" alt="The blue back of a card">
                     </div>
                     <div class="card hide-card">
-                        <img src="../images/back.png" alt="The blue back of a card">
+                        <img src="../images/back-blue.png" alt="The blue back of a card">
                     </div>
                     <div class="card hide-card">
-                        <img src="../images/back.png" alt="The blue back of a card">
+                        <img src="../images/back-blue.png" alt="The blue back of a card">
                     </div>
                     <div class="card hide-card">
-                        <img src="../images/back.png" alt="The blue back of a card">
+                        <img src="../images/back-blue.png" alt="The blue back of a card">
                     </div>
                     <div class="card hide-card">
-                        <img src="../images/back.png" alt="The blue back of a card">
-                    </div>
-                    </div>
-                    <div class="card hide-card">
-                        <img src="../images/back.png" alt="The blue back of a card">
-                    </div>
+                        <img src="../images/back-blue.png" alt="The blue back of a card">
                     </div>
                     <div class="card hide-card">
-                        <img src="../images/back.png" alt="The blue back of a card">
+                        <img src="../images/back-blue.png" alt="The blue back of a card">
                     </div>
                 </div>
             </section>
