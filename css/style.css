@@ -127,27 +127,14 @@ MODAL
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.modal-btn-close {
-    position: absolute;
-    right: .5em;
-    top: .5em;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    transform: scale(1);
-    transition: transform 180ms ease-in-out;
-}
-
-.modal-btn-close:focus,
-.modal-btn-close:hover {
-    transform: scale(1.2);
-}
-
 .win-lose {
-    margin-bottom: 1.5em;
+    margin-bottom: 0;
     font-size: 2rem;
     font-weight: 900;
+}
+
+.game-message {
+    margin-bottom: 3em;
 }
 
 .btn-win-lose {
@@ -205,12 +192,8 @@ GAME AREA
 .play-area-cards {
     width: 100%;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-between;
-}
-
-.first-row {
-    margin-bottom: 1em;
 }
 
 .card {
@@ -240,6 +223,11 @@ GAME AREA
 
     .chances {
         order: -1;
+        text-align: center;
+    }
+
+    .play-area-cards {
+        flex-wrap: nowrap;
     }
 
     .card {
@@ -323,6 +311,7 @@ GAME AREA
     .chances {
         order: 99;
         padding-top: 1em;
+        text-align: left;
     }
 
     .desktop {
@@ -340,8 +329,4 @@ GAME AREA
         width: 80%;
     }    
     
-    .modal-btn-close {
-        top: 1em;
-        right: 1em;
-    }
 }
