@@ -193,12 +193,21 @@ GAME AREA
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+}
+
+.row {
+    width: 100%;
+    display: flex;
     justify-content: space-between;
 }
 
-.card {
+/* .last-row {
+    order: -1;
+} */
+
+/* .card {
     width: 15%;
-}
+} */
 
 @media (max-width: 850px) {
     .play-area-flex {
@@ -227,7 +236,11 @@ GAME AREA
     }
 
     .play-area-cards {
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
+    }
+
+    .first-row  {
+        justify-content: center;
     }
 
     .card {
