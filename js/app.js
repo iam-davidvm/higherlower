@@ -30,7 +30,7 @@ document.addEventListener('click', function(e) {
 // Start a new/next game from the homepage
 function startGame(game) {
     if (game === 'new') {
-        localStorage.setItem('currentStreak', '0');
+        localStorage.setItem('current-streak', '0');
     }
 
     localStorage.setItem('decks-setting', decksSelector.value);

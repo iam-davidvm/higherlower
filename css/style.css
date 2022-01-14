@@ -201,9 +201,9 @@ GAME AREA
     justify-content: space-between;
 }
 
-/* .last-row {
+.last-row {
     order: -1;
-} */
+}
 
 /* .card {
     width: 15%;
@@ -236,11 +236,12 @@ GAME AREA
     }
 
     .play-area-cards {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
     }
 
-    .first-row  {
-        justify-content: center;
+    .last-row {
+        width: 0%;
+        order: 99;
     }
 
     .card {
