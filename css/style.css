@@ -181,7 +181,7 @@ GAME AREA
 
 .chances {
     margin-left: 1em;
-    display: inline-block;
+    display: none;
 }
 
 .play-area-chances {

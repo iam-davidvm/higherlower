@@ -22,26 +22,43 @@ let decksSetting = localStorage.getItem('decks-setting');
 let cardsSetting = localStorage.getItem('cards-setting');
 let currentStreak = localStorage.getItem('current-Streak');
 let longestStreak = localStorage.getItem('longest-Streak');
-// let cardsSetting = localStorage.getItem('cards-setting');
 
 let cardsLeft = [];
 let drawnCards = [];
 let currentGuess = 1;
+let guessed = false;
 
 // DOM-elements
 const firstRow = document.querySelector('.first-row');
 const lastRow = document.querySelector('.last-row');
+let row = [];
 const currentStreakDisplay = document.querySelector('.streak-current-value');
 const longestStreakDisplay = document.querySelector('.streak-longest-value');
 const higherBtn = document.querySelector('.btn-higher');
 const lowerBtn = document.querySelector('.btn-lower');
+const chancesBtn = document.querySelector('.btn-show-hide');
+const chancesDisplay = document.querySelector('.chances');
 
+// events
 higherBtn.addEventListener('click', function() {
     guess('higher');
 })
 
 lowerBtn.addEventListener('click', function() {
     guess('lower');
+})
+
+chancesBtn.addEventListener('click', function() {
+    const isRevealed = chancesBtn.getAttribute('data-chances');
+    if (isRevealed === 'revealed') {
+        chancesBtn.setAttribute('data-chances', 'hidden');
+        chancesBtn.innerHTML = 'Reveal chances <span><i class="far fa-eye"></i> </span>';
+        chancesDisplay.style.display = 'none';
+    } else {
+        chancesBtn.setAttribute('data-chances', 'revealed');
+        chancesBtn.innerHTML = '<span class="hide-mobile">Hide chances </span><i class="far fa-eye-slash"></i>';
+        chancesDisplay.style.display = 'inline-block';
+    }
 })
 
 function showStreaks() {
@@ -96,14 +113,88 @@ function checkIfSmall() {
     }
 }
 
+//plays with the width percentages to dynamically make it responsive
+function responsiveDivWidths(index = 99) {
+    const screenWidth = window.innerWidth;
+    let media = 'desktop';
+
+    if (screenWidth <= 490) {
+        media = 'mobile';
+    } else if (screenWidth <= 850) {
+        media = 'small';
+    }
+
+    if (index === 99) {
+        if (!guessed) {
+            index = 0;
+        } else {
+            for (let i = 0; i < row.length; i++) {
+                if (row[i].classList.contains('current-card')) {
+                    index = i;
+                }
+            }
+        }
+    }
+
+    // console.log('responsiveDivWidths index :' + index);
+
+    // we want to show 3 cards on a small screen when the first card is visible
+    if (index === 0 && media === 'small') {
+        firstRow.children[1].classList.remove('hide-card');
+        firstRow.children[2].classList.remove('hide-card');
+    } else if (index === 0 && media === 'mobile'){
+        firstRow.children[1].classList.add('hide-card');
+        firstRow.children[2].classList.add('hide-card');
+    }
+    
+    if (index <= 4) {
+        // previous, current & next card are in first row
+        firstRow.style.width = '100%';
+        lastRow.style.width = '0%';
+    } else if (index >= 7) {
+        // previous, current & next card are in last row
+        firstRow.style.width = '100%';
+        if (media === 'mobile' || media === 'small') {
+            firstRow.style.width = '0%';
+            lastRow.style.width = '100%';
+        } else {
+            firstRow.style.width = '100%';
+        }
+    } else if (index === 5) {
+        // previous current card is in first row, next in last row
+        if (media === 'small') {
+            firstRow.style.width = '66.6%';
+            lastRow.style.width = '33.3%';
+        } else if (media === 'mobile') {
+            firstRow.style.width = '100%';
+            lastRow.style.width = '0%'
+        } else if (media === 'desktop') {
+            firstRow.style.width = '100%';
+            lastRow.style.width = '100%';
+        }
+    } else if (index === 6) {
+         // previous card is in first row, current and next in last row
+        if (media === 'small') {
+            firstRow.style.width = '33.3%';
+            lastRow.style.width = '66.3%';
+        } else if (media === 'mobile') {
+            firstRow.style.width = '0%';
+            lastRow.style.width = '100%'
+        } else if (media === 'desktop') {
+            firstRow.style.width = '100%';
+            lastRow.style.width = '100%';
+        }
+    }
+}
+
 // pick a random card and delete it from the deck and push it on the drawncards
 function drawCard() {
-    console.log(cardsLeft);
+    // console.log(cardsLeft);
     let randomNum = Math.ceil(Math.random() * cardsLeft.length);
-    console.log(randomNum);
+    // console.log(randomNum);
     drawnCards = drawnCards.concat(cardsLeft.splice(randomNum, 1));
-    console.log('cardsLeft', cardsLeft);
-    console.log('drawnCards', drawnCards);
+    // console.log('cardsLeft', cardsLeft);
+    // console.log('drawnCards', drawnCards);
 }
 
 // renders the cards on the page
@@ -117,175 +208,106 @@ function renderPlayingCards() {
         if (i === 0) {
             firstRowCards = `
                 <div class="card current-card">
-                    <img src="../images/${getScreenSize()}${drawnCards[drawnCards.length - 1][3]}" alt="${drawnCards[drawnCards.length - 1][2]}" class="front-card">
+                    <img src="../images/${getScreenSize()}${drawnCards[drawnCards.length - 1][3]}" alt="${drawnCards[drawnCards.length - 1][2]}" class="front-card card-img">
                 </div>
             `;
         } else if (i === 1) {
             firstRowCards += `
                 <div class="card next-card">
-                    <img src="../images/back-red.png" alt="The red back of a card">
+                    <img src="../images/back-red.png" alt="The red back of a card"class="card-img">
                 </div>
             `
         } else if (isTablet && i === 2) {
             firstRowCards += `
                 <div class="card">
-                    <img src="../images/back-blue.png" alt="The red back of a card">
+                    <img src="../images/back-blue.png" alt="The red back of a card"class="card-img">
                 </div>
             `
         } else {
             firstRowCards += `
                 <div class="card hide-card">
-                    <img src="../images/back-blue.png" alt="The blue back of a card">
+                    <img src="../images/back-blue.png" alt="The blue back of a card"class="card-img">
                 </div>
             `
         }
     }
     firstRow.innerHTML = firstRowCards;
+
+    // fill the row array, used later on
+    for (let i = 0; i < firstRow.children.length; i++) {
+        row.push(firstRow.children[i]);
+    }
     
     if (cardsSetting === 'eleven') {
         let lastRowCards = '';
         for (let i = 0; i <= 5; i++) {
             lastRowCards += `
             <div class="card hide-card hide">
-            <img src="../images/back-blue.png" alt="The blue back of a card">
+            <img src="../images/back-blue.png" alt="The blue back of a card" class="card-img">
             </div>
             `
         }
         lastRow.innerHTML = lastRowCards;
+
+        // fill the row array, used later on
+        for (let i = 0; i < lastRow.children.length; i++) {
+            row.push(lastRow.children[i]);
+        }
     }
-    
+
 }
 
 function displayCard(index) {
 
-    // the display of the cards is different depending on the screen width
-    const isSmall = checkIfSmall();
-    const isTablet = checkIfTablet();
+    responsiveDivWidths(index);
+    const cardsImgs = document.querySelectorAll('.card-img');
 
-    // if there are two rows of cards, we want another display
-    let isOnOneRow = true;
-    if (index > 4 && index < 7) {
-        isOnOneRow = false;
+    if (index === 5) {
+        for (let i = 0; i < 6; i++) {
+            lastRow.children[i].classList.remove('hide');
+        }
     }
+    
+    // the previous card is no longer the current card, but the last
+    row[index - 1].classList.remove('current-card');
+    row[index - 1].classList.add('last-card');
 
-    if (isOnOneRow) {
-        let row = document.querySelector('.first-row');
-        firstRow.style.width = '100%';
-        lastRow.style.width = '0%';
+    // make old images - if available hidden
+    if (row[index - 2]) {
+        row[index - 2].classList.add('hide-card');
+    }
+    
+    // Reveal a new card
+    cardsImgs[index].src = `../images/${getScreenSize()}${drawnCards[drawnCards.length - 1][3]}`;
+    cardsImgs[index].alt = `${drawnCards[drawnCards.length - 1][2]}`;
+    cardsImgs[index].classList.add('front-card');
 
-        /*
-        IS DIT NODIG?
-        */
-        if (index >= 7) {
-            row = document.querySelector('.last-row');
-            firstRow.style.width = '100%';
-            lastRow.style.width = '100%';
-            if (isSmall) {
-                firstRow.style.width = '0%';
-            }
-            index = index % 6;
-        }
+    // make the next card the current card
+    row[index].classList.remove('next-card');
+    row[index].classList.remove('hide-card');
+    row[index].classList.add('current-card');
 
-        const revealedCard = row.querySelectorAll('img')[index];
-        const nextCard = row.querySelectorAll('img')[index + 1];
-        // previouscard
-        row.children[index - 1].classList.remove('current-card');
-        row.children[index - 1].classList.add('last-card');
-
-        if (row.children[index - 2]) {
-            row.children[index - 2].classList.add('hide-card');
-        }
-
-        // revealedcard
-        revealedCard.src = `../images/${getScreenSize()}${drawnCards[drawnCards.length - 1][3]}`;
-        revealedCard.alt = `${drawnCards[drawnCards.length - 1][2]}`;
-        revealedCard.classList.add('front-card');
-        row.children[index].classList.remove('next-card');
-        row.children[index].classList.add('current-card');
-        // newcard
-        nextCard.src = '../images/back-red.png';
-        nextCard.alt = 'The red back of a card';
-        row.children[index + 1].classList.remove('hide-card');
-        row.children[index + 1].classList.add('next-card');
-        console.log(row.children[0]);
-    } else {
-        if (index === 5) {
-            const revealedCard = firstRow.querySelectorAll('img')[index];
-            const nextCard = lastRow.querySelectorAll('img')[0];
-            
-            
-            if (isTablet) {
-                firstRow.style.width = '66%';
-                lastRow.style.width = '33%';
-            } else if (isSmall) {
-                firstRow.style.width = '100%';
-            } else {
-                lastRow.style.width = '100%';
-            }
-
-            // previouscard
-            firstRow.children[index - 1].classList.remove('current-card');
-            firstRow.children[index - 1].classList.add('last-card');
-            if (firstRow.children[index - 2]) {
-                firstRow.children[index - 2].classList.add('hide-card');
-            }
-            // revealedcard
-            revealedCard.src = `../images/${getScreenSize()}${drawnCards[drawnCards.length - 1][3]}`;
-            revealedCard.alt = `${drawnCards[drawnCards.length - 1][2]}`;
-            revealedCard.classList.add('front-card');
-            firstRow.children[index].classList.remove('next-card');
-            firstRow.children[index].classList.add('current-card');
-            // newcard
-            nextCard.src = '../images/back-red.png';
-            nextCard.alt = 'The red back of a card';
-            lastRow.children[0].classList.remove('hide-card');
-            lastRow.children[0].classList.add('next-card');
-            for (let i = 0; i < 6; i++) {
-                lastRow.children[i].classList.remove('hide');
-            }
-        } else {
-            const revealedCard = lastRow.querySelectorAll('img')[0];
-            const nextCard = lastRow.querySelectorAll('img')[1];
-            
-            if (isTablet) {
-                firstRow.style.width = '33%';
-                lastRow.style.width = '66%';
-            } else if (isSmall) {
-                firstRow.style.width = '0%';
-                lastRow.style.width = '100%';
-            }
-
-            // previouscard
-            firstRow.children[index - 1].classList.remove('current-card');
-            firstRow.children[index - 1].classList.add('last-card');
-            if (firstRow.children[index - 2]) {
-                firstRow.children[index - 2].classList.add('hide-card');
-            }
-            // revealedcard
-            revealedCard.src = `../images/${getScreenSize()}${drawnCards[drawnCards.length - 1][3]}`;
-            revealedCard.alt = `${drawnCards[drawnCards.length - 1][2]}`;
-            revealedCard.classList.add('front-card');
-            lastRow.children[0].classList.remove('next-card');
-            lastRow.children[0].classList.add('current-card');
-            // newcard
-            nextCard.src = '../images/back-red.png';
-            nextCard.alt = 'The red back of a card';
-            lastRow.children[1].classList.remove('hide-card');
-            lastRow.children[1].classList.add('next-card');
-        }
+    // the next card (if there is one) gets another back design
+    if (row[index + 1]) {
+        cardsImgs[index + 1].src = '../images/back-red.png';
+        cardsImgs[index + 1].alt = 'The red back of a card';
+        // we show the next card
+        row[index + 1].classList.remove('hide-card');
+        row[index + 1].classList.add('next-card');
     }
 }
 
 function guess(playerGuess) {
-    // trek een kaart
+    guessed = true;
+    
     drawCard();
-    // vergelijk de getrokken kaart met de vorige kaart (vorige - huidige)
+    
     const previousCard = drawnCards[drawnCards.length - 2];
     const newCard = drawnCards[drawnCards.length - 1];
     let result = '';
     let rightGuess;
 
-    console.log(`This is guess number ${currentGuess}`);
+    // console.log(`This is guess number ${currentGuess}`);
 
     if ((newCard[0] - previousCard[0]) === 0) {
         result = 'same';
@@ -303,7 +325,7 @@ function guess(playerGuess) {
         rightGuess = false;
     }
     
-    // fout gegokt? game over
+    
     if (!rightGuess) {
         /* console.error('verloren');
         currentGuess = 1;
@@ -317,7 +339,6 @@ function guess(playerGuess) {
 
     } else {
         // goed gegokt
-        // nextGuess++
         if (cardsSetting === 'five' && currentGuess === 5) {
             console.info('gewonnen');
             currentGuess = 1;
@@ -327,15 +348,11 @@ function guess(playerGuess) {
         } else {
             displayCard(currentGuess);
             currentGuess++;
-            console.log('kaart tonen');
+            // console.log('kaart tonen');
         }
 
     }
 
-
-        // alle kaarten geraden? gewonnen
-
-        // nog kaarten te gaan? display kaart
 }
 
 /*
@@ -347,6 +364,8 @@ window.addEventListener('resize', resizeScreen);
 
 function resizeScreen() {
     const screenWidth = window.innerWidth;
+
+    responsiveDivWidths();
 
     const cardImgs = document.querySelectorAll('.front-card');
     if (screenWidth <= 490) {
