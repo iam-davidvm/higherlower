@@ -27,6 +27,7 @@ let cardsLeft = [];
 let drawnCards = [];
 let currentGuess = 1;
 let guessed = false;
+let chancesRevealed = 'hidden';
 
 // DOM-elements
 const firstRow = document.querySelector('.first-row');
@@ -49,18 +50,22 @@ lowerBtn.addEventListener('click', function() {
 })
 
 chancesBtn.addEventListener('click', function() {
-    const isRevealed = chancesBtn.getAttribute('data-chances');
-    if (isRevealed === 'revealed') {
+    chancesRevealed = chancesBtn.getAttribute('data-chances');
+    if (chancesRevealed === 'revealed') {
         chancesBtn.setAttribute('data-chances', 'hidden');
+        chancesRevealed = 'hidden';
         chancesBtn.innerHTML = 'Reveal chances <span><i class="far fa-eye"></i> </span>';
         chancesDisplay.style.display = 'none';
     } else {
         chancesBtn.setAttribute('data-chances', 'revealed');
+        chancesRevealed = 'revealed';
         chancesBtn.innerHTML = '<span class="hide-mobile">Hide chances </span><i class="far fa-eye-slash"></i>';
         chancesDisplay.style.display = 'inline-block';
+        checkChances();
     }
 })
 
+// show the current and longest streak
 function showStreaks() {
     if (currentStreak) {
         currentStreakDisplay.textContent = currentStreak;
@@ -90,6 +95,7 @@ function getDeckOfCards() {
     }
 }
 
+// helper function to change the path of images in case of mobile width
 function getScreenSize() {
     const screenWidth = window.innerWidth;
     if (screenWidth <= 490) {
@@ -98,7 +104,9 @@ function getScreenSize() {
         return 'desktop';
     }
 }
-
+/*
+deprecated?
+*/
 function checkIfTablet() {
     const screenWidth = window.innerWidth;
     if (screenWidth > 490 && screenWidth <= 850) {
@@ -195,6 +203,18 @@ function drawCard() {
     drawnCards = drawnCards.concat(cardsLeft.splice(randomNum, 1));
     // console.log('cardsLeft', cardsLeft);
     // console.log('drawnCards', drawnCards);
+}
+
+// calculates the chances of a higer or lower card
+function checkChances() {
+    const lastCard = drawnCards[drawnCards.length - 1];
+    const lowerCards = cardsLeft.filter(card => card[0] < lastCard[0]).length;
+    const cardsPercentage = Math.round((lowerCards / cardsLeft.length) * 100);
+    if (cardsPercentage > 50) {
+      chancesDisplay.textContent = `${cardsPercentage}% lower`;
+    } else {
+      chancesDisplay.textContent = `${100 - cardsPercentage}% higher`;
+    }
 }
 
 // renders the cards on the page
@@ -347,6 +367,10 @@ function guess(playerGuess) {
             currentGuess = 1;
         } else {
             displayCard(currentGuess);
+            console.log(chancesRevealed);
+            if (chancesRevealed === 'revealed') {
+                checkChances();
+            }
             currentGuess++;
             // console.log('kaart tonen');
         }
