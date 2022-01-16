@@ -41,6 +41,11 @@ const chancesBtn = document.querySelector('.btn-show-hide');
 const chancesDisplay = document.querySelector('.chances');
 const overlay = document.querySelector('#overlay');
 
+// if the player never passes the index-page there is no deck-setting
+if (!decksSetting) {    
+    window.open('../index.html', '_self');
+}
+
 // events
 higherBtn.addEventListener('click', function() {
     guess('higher');
