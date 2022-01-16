@@ -73,9 +73,9 @@ document.addEventListener('click', function(e) {
 });
 
 document.addEventListener('keyup', function(e) {
-    if (e.key === 'ArrowUp') {
+    if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'h') {
         guess('higher');
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === 'ArrowDown' || e.key.toLowerCase() === 'l') {
         guess('lower');
     }
 })
