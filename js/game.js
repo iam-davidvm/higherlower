@@ -209,8 +209,7 @@ function drawCard() {
     console.log('drawcard - cardLeft: : ',cardsLeft);
     let randomNum = Math.floor(Math.random() * cardsLeft.length);
     console.log('drawcard - randomNum: ' + randomNum);
-    drawnCards.push(cardsLeft[randomNum]);
-    cardsLeft.splice(randomNum, 1);
+    drawnCards = drawnCards.concat(cardsLeft.splice(randomNum, 1));
     return randomNum;
 }
 
@@ -228,10 +227,7 @@ function checkChances() {
 
 // renders the cards on the page
 function renderPlayingCards() {
-    const cardDrawn = drawCard();
-    if (cardDrawn >= 0 && cardDrawn < 103) {
-        console.log('kaart getrokken: ', cardDrawn);
-    }
+    drawCard();
     let firstRowCards = '';
 
     console.log(`renderPlayingCards: ${drawnCards} ${typeof(drawnCards)}`);
@@ -248,19 +244,19 @@ function renderPlayingCards() {
         } else if (i === 1) {
             firstRowCards += `
                 <div class="card next-card">
-                    <img src="../images/back-red.png" alt="The red back of a card"class="card-img">
+                    <img src="../images/back-red.png" alt="" class="card-img">
                 </div>
             `
         } else if (isTablet && i === 2) {
             firstRowCards += `
                 <div class="card">
-                    <img src="../images/back-blue.png" alt="The red back of a card"class="card-img">
+                    <img src="../images/back-blue.png" alt="" class="card-img">
                 </div>
             `
         } else {
             firstRowCards += `
                 <div class="card hide-card">
-                    <img src="../images/back-blue.png" alt="The blue back of a card"class="card-img">
+                    <img src="../images/back-blue.png" alt="" class="card-img">
                 </div>
             `
         }
@@ -277,7 +273,7 @@ function renderPlayingCards() {
         for (let i = 0; i <= 5; i++) {
             lastRowCards += `
             <div class="card hide-card hide">
-            <img src="../images/back-blue.png" alt="The blue back of a card" class="card-img">
+            <img src="../images/back-blue.png" alt="" class="card-img">
             </div>
             `
         }
@@ -325,7 +321,7 @@ function displayCard(index) {
     if (row[index + 1]) {
         if (cardsImgs[index+1]) {
             cardsImgs[index + 1].src = '../images/back-red.png';
-            cardsImgs[index + 1].alt = 'The red back of a card';
+            cardsImgs[index + 1].alt = 'The next card';
         }
         // we show the next card
         row[index + 1].classList.remove('hide-card');
@@ -333,22 +329,11 @@ function displayCard(index) {
     }
 }
 
-function checkForUndefined() {
-    for (let i = drawnCards.length - 1; i >= 0; i--) {
-        if (!drawnCards[i]) {
-            console.error('fired');
-            drawnCards.splice(i, 1);
-        }
-    }
-}
-
 function guess(playerGuess) {
     guessed = true;
     
     drawCard();
-    
-    // Because of a performance issue
-    checkForUndefined();
+
 
     const previousCard = drawnCards[drawnCards.length - 2];
     const newCard = drawnCards[drawnCards.length - 1];

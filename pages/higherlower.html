@@ -13,7 +13,7 @@
 
         <!-- https://scrimba.com/learn/frontend/build-a-modal-rgba-colors-cywNWbT3 -->
         <div id="overlay">
-            <div id="modal">
+            <div id="modal" aria-live="assertive" aria-atomic="true">
                 <div class="game-state">
                     <h2 class="win-lose">You won!</h2>
                     <p class="game-message">The last card was xxx</p>
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-    <header>
+    <header aria-atomic="false">
         <div class="container">
             <h1>
                 Higher ⬆ Lower ⬇
@@ -57,59 +57,23 @@
 
             <section class="play-area play-area-flex">
                 <div class="play-area-buttons">
-                    <button class="btn btn-higher">
+                    <button class="btn btn-higher" aria-label="Guess higher">
                         <span class="desktop">Higher </span><i class="fas fa-arrow-up"></i>
                     </button>
-                    <button class="btn btn-lower">
+                    <button class="btn btn-lower" aria-label="Guess higher">
                         <span class="desktop">Lower </span><i class="fas fa-arrow-down"></i>
                     </button>
                 </div>
 
                 <div class="play-area-chances">
                     <button class="btn btn-show-hide" data-chances="hidden">Reveal chances <span><i class="far fa-eye"></i> </span></button>
-                    <p class="chances">75% higher</p>
+                    <p class="chances" aria-live="assertive" aria-atomic="true">75% higher</p>
                 </div>
 
-                <div class="play-area-cards">
+                <div class="play-area-cards" aria-live="polite" aria-atomic="true">
                     <div class="row first-row">
-                        <!-- <div class="card last-card">
-                            <img src="../images/desktop/card.png" alt="10 of spades">
-                        </div>
-                        <div class="card current-card">
-                            <img src="../images/desktop/card.png" alt="10 of spades">
-                        </div>
-                        <div class="card next-card">
-                            <img src="../images/back-red.png" alt="The red back of a card">
-                        </div>
-                        <div class="card hide-card">
-                            <img src="../images/back-blue.png" alt="The blue back of a card">
-                        </div>
-                        <div class="card hide-card">
-                            <img src="../images/back-blue.png" alt="The blue back of a card">
-                        </div>
-                        <div class="card hide-card">
-                            <img src="../images/back-blue.png" alt="The blue back of a card">
-                        </div> -->
                     </div>
                     <div class="row last-row">
-                        <!-- <div class="card hide-card">
-                            <img src="../images/back-blue.png" alt="The blue back of a card">
-                        </div>
-                        <div class="card hide-card">
-                            <img src="../images/back-blue.png" alt="The blue back of a card">
-                        </div>
-                        <div class="card hide-card">
-                            <img src="../images/back-blue.png" alt="The blue back of a card">
-                        </div>
-                        <div class="card hide-card">
-                            <img src="../images/back-blue.png" alt="The blue back of a card">
-                        </div>
-                        <div class="card hide-card">
-                            <img src="../images/back-blue.png" alt="The blue back of a card">
-                        </div>
-                        <div class="card hide-card">
-                            <img src="../images/back-blue.png" alt="The blue back of a card">
-                        </div> -->
                     </div>
                 </div>
             </section>
