@@ -20,8 +20,8 @@ let decksCreated = false;
 // localstarage items
 let decksSetting = localStorage.getItem('decks-setting');
 let cardsSetting = localStorage.getItem('cards-setting');
-let currentStreak = localStorage.getItem('current-Streak');
-let longestStreak = localStorage.getItem('longest-Streak');
+let currentStreak = localStorage.getItem('current-streak');
+let longestStreak = localStorage.getItem('longest-streak');
 
 let cardsLeft = [];
 let drawnCards = [];
@@ -39,15 +39,16 @@ const higherBtn = document.querySelector('.btn-higher');
 const lowerBtn = document.querySelector('.btn-lower');
 const chancesBtn = document.querySelector('.btn-show-hide');
 const chancesDisplay = document.querySelector('.chances');
+const overlay = document.querySelector('#overlay');
 
 // events
 higherBtn.addEventListener('click', function() {
     guess('higher');
-})
+});
 
 lowerBtn.addEventListener('click', function() {
     guess('lower');
-})
+});
 
 chancesBtn.addEventListener('click', function() {
     chancesRevealed = chancesBtn.getAttribute('data-chances');
@@ -63,21 +64,35 @@ chancesBtn.addEventListener('click', function() {
         chancesDisplay.style.display = 'inline-block';
         checkChances();
     }
+});
+
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('btn-win-lose')) {
+        startNewOrNextGame();
+    }
+});
+
+document.addEventListener('keyup', function(e) {
+    if (e.key === 'ArrowUp') {
+        guess('higher');
+    } else if (e.key === 'ArrowDown') {
+        guess('lower');
+    }
 })
 
 // show the current and longest streak
 function showStreaks() {
-    if (currentStreak) {
-        currentStreakDisplay.textContent = currentStreak;
-    } else {
-        currentStreakDisplay.textContent = 0;
+    if (!currentStreak) {
+        currentStreak = 0;
     }
 
-    if (longestStreak) {
-        longestStreakDisplay.textContent = longestStreak;
-    } else {
-        longestStreakDisplay.textContent = 0;
+    if (!longestStreak) {
+        longestStreak = 0;
     }
+
+    currentStreakDisplay.textContent = currentStreak;
+    longestStreakDisplay.textContent = longestStreak;
+
 }
 
 // Create the amount of decks
@@ -114,12 +129,6 @@ function checkIfTablet() {
     }
 }
 
-function checkIfSmall() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 850) {
-        return true;
-    }
-}
 
 //plays with the width percentages to dynamically make it responsive
 function responsiveDivWidths(index = 99) {
@@ -144,7 +153,6 @@ function responsiveDivWidths(index = 99) {
         }
     }
 
-    // console.log('responsiveDivWidths index :' + index);
 
     // we want to show 3 cards on a small screen when the first card is visible
     if (index === 0 && media === 'small') {
@@ -197,12 +205,13 @@ function responsiveDivWidths(index = 99) {
 
 // pick a random card and delete it from the deck and push it on the drawncards
 function drawCard() {
-    // console.log(cardsLeft);
-    let randomNum = Math.ceil(Math.random() * cardsLeft.length);
-    // console.log(randomNum);
-    drawnCards = drawnCards.concat(cardsLeft.splice(randomNum, 1));
-    // console.log('cardsLeft', cardsLeft);
-    // console.log('drawnCards', drawnCards);
+    console.log('drawcard - drawncards: ',drawnCards);
+    console.log('drawcard - cardLeft: : ',cardsLeft);
+    let randomNum = Math.floor(Math.random() * cardsLeft.length);
+    console.log('drawcard - randomNum: ' + randomNum);
+    drawnCards.push(cardsLeft[randomNum]);
+    cardsLeft.splice(randomNum, 1);
+    return randomNum;
 }
 
 // calculates the chances of a higer or lower card
@@ -219,8 +228,13 @@ function checkChances() {
 
 // renders the cards on the page
 function renderPlayingCards() {
-    drawCard();
+    const cardDrawn = drawCard();
+    if (cardDrawn >= 0 && cardDrawn < 103) {
+        console.log('kaart getrokken: ', cardDrawn);
+    }
     let firstRowCards = '';
+
+    console.log(`renderPlayingCards: ${drawnCards} ${typeof(drawnCards)}`);
     
     const isTablet = checkIfTablet();
 
@@ -282,7 +296,7 @@ function displayCard(index) {
     responsiveDivWidths(index);
     const cardsImgs = document.querySelectorAll('.card-img');
 
-    if (index === 5) {
+    if (cardsSetting !== 'five' && index === 5) {
         for (let i = 0; i < 6; i++) {
             lastRow.children[i].classList.remove('hide');
         }
@@ -309,11 +323,22 @@ function displayCard(index) {
 
     // the next card (if there is one) gets another back design
     if (row[index + 1]) {
-        cardsImgs[index + 1].src = '../images/back-red.png';
-        cardsImgs[index + 1].alt = 'The red back of a card';
+        if (cardsImgs[index+1]) {
+            cardsImgs[index + 1].src = '../images/back-red.png';
+            cardsImgs[index + 1].alt = 'The red back of a card';
+        }
         // we show the next card
         row[index + 1].classList.remove('hide-card');
         row[index + 1].classList.add('next-card');
+    }
+}
+
+function checkForUndefined() {
+    for (let i = drawnCards.length - 1; i >= 0; i--) {
+        if (!drawnCards[i]) {
+            console.error('fired');
+            drawnCards.splice(i, 1);
+        }
     }
 }
 
@@ -322,12 +347,13 @@ function guess(playerGuess) {
     
     drawCard();
     
+    // Because of a performance issue
+    checkForUndefined();
+
     const previousCard = drawnCards[drawnCards.length - 2];
     const newCard = drawnCards[drawnCards.length - 1];
     let result = '';
     let rightGuess;
-
-    // console.log(`This is guess number ${currentGuess}`);
 
     if ((newCard[0] - previousCard[0]) === 0) {
         result = 'same';
@@ -336,6 +362,15 @@ function guess(playerGuess) {
     } else if ((newCard[0] - previousCard[0]) > 0) {
         result = 'higher';
     }
+
+    console.log(`
+    drawn cards: ${drawnCards}
+    draw Cards Length: ${drawnCards.length}
+    new card: ${newCard[0]}
+    previous card: ${previousCard[0]}
+    result: ${result}
+    `
+    )
 
     if (result === 'same') {
         rightGuess = true;
@@ -347,36 +382,110 @@ function guess(playerGuess) {
     
     
     if (!rightGuess) {
-        /* console.error('verloren');
-        currentGuess = 1;
-        */
-
-        /*
-        BOVENSTAANDE TERUG ZETTEN EN ONDERSTAANDE WISSEN NA TESTEN
-        */
         displayCard(currentGuess);
-        currentGuess++;
+        currentGuess = 1;
+        gameOver('lost');
 
     } else {
-        // goed gegokt
+        // correct guess
         if (cardsSetting === 'five' && currentGuess === 5) {
-            console.info('gewonnen');
+            displayCard(currentGuess);
+
             currentGuess = 1;
+            gameOver('won');
         } else if (cardsSetting === 'eleven' && currentGuess === 11) {
-            console.info('gewonnen');
+            displayCard(currentGuess);
+            
             currentGuess = 1;
+            gameOver('won');
         } else {
             displayCard(currentGuess);
-            console.log(chancesRevealed);
             if (chancesRevealed === 'revealed') {
                 checkChances();
             }
             currentGuess++;
-            // console.log('kaart tonen');
         }
 
     }
 
+}
+
+/*
+ *
+ * GAME OVER MODAL
+ * 
+ */
+
+function gameOver(result) {
+    overlay.style.display = 'block';
+
+    // DOM-elements
+    const winOrLoseTitle = document.querySelector('.win-lose');
+    const winOrLoseMessage = document.querySelector('.game-message');
+    const newOrNextGameBtn = document.querySelector('.btn-win-lose');
+    const decksSelector = document.querySelector('#decks');
+    const cardsSelector = document.querySelector('#cards');
+
+    decksSelector.value = decksSetting;
+    cardsSelector.value = cardsSetting;
+
+    winOrLoseMessage.textContent = `The last card was ${drawnCards[drawnCards.length - 1][2]}`;
+
+    if (result === 'won') {
+        currentStreak++;
+
+        winOrLoseTitle.textContent =  'You won!';
+        newOrNextGameBtn.textContent = 'Next Game';
+
+        if (currentStreak > longestStreak) {
+            longestStreak = currentStreak;
+        }
+
+        localStorage.setItem('current-streak', currentStreak);
+        localStorage.setItem('longest-streak', longestStreak);
+    } else {
+        currentStreak = 0;
+
+        winOrLoseTitle.textContent =  'You lost!';
+        newOrNextGameBtn.textContent = 'New Game';
+
+        localStorage.removeItem('current-streak');
+    }
+
+    // reset all
+    row = [];
+    drawnCards = [];
+    cardsLeft = [];
+    // drawnCards = [];
+    guessed = false;
+    chancesRevealed = 'hidden';
+
+    console.log('win-lose - drawncards: ',drawnCards);
+    console.log('win-lose - cardLeft: : ',cardsLeft);
+    
+}
+
+function startNewOrNextGame() {
+    const decksSelector = document.querySelector('#decks');
+    const cardsSelector = document.querySelector('#cards');
+    console.error('op new or continue geklikt');
+    localStorage.setItem('decks-setting', decksSelector.value);
+    localStorage.setItem('cards-setting', cardsSelector.value);
+    cardsSetting = cardsSelector.value;
+    decksSetting = decksSelector.value;
+
+    chancesBtn.setAttribute('data-chances', 'hidden');
+    chancesBtn.innerHTML = 'Reveal chances <span><i class="far fa-eye"></i> </span>';
+    chancesDisplay.style.display = 'none';
+
+    firstRow.style.width = '100%';
+    lastRow.style.width = '0%';
+
+    overlay.style.display = 'none';
+
+    firstRow.textContent = '';
+    lastRow.textContent = '';
+    init();
 }
 
 /*
@@ -394,16 +503,10 @@ function resizeScreen() {
     const cardImgs = document.querySelectorAll('.front-card');
     if (screenWidth <= 490) {
         for (let i = 0; i < cardImgs.length; i++) {
-            /* const desktop = cardImgs[i].src;
-            const mobile = desktop.replace('desktop', 'mobile'); */
-            // console.log(mobile);
             cardImgs[i].src = cardImgs[i].src.replace('desktop', 'mobile');
         }
     } else {
         for (let i = 0; i < cardImgs.length; i++) {
-            /*const mobile = cardImgs[i].src;
-            const desktop = mobile.replace('mobile', 'desktop');
-            console.log(desktop);*/
             cardImgs[i].src = cardImgs[i].src.replace('mobile', 'desktop');
         }
     }
@@ -414,8 +517,10 @@ function resizeScreen() {
  * INITIALIZER
  * 
  */
-(function init() {
+function init() {
     showStreaks();
     getDeckOfCards();
     renderPlayingCards();
-})();
+}
+
+init();

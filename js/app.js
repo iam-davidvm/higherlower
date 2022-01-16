@@ -9,12 +9,16 @@ const continueGameBtn = document.querySelector('.btn-continue');
 const newGameBtn = document.querySelector('.btn-new');
 
 // localstarage items
-let gameInProgress = localStorage.getItem('gameInProgress');
+let gameInProgress = localStorage.getItem('current-streak');
 let decksSetting = localStorage.getItem('decks-setting');
 let cardsSetting = localStorage.getItem('cards-setting');
 
 const decksSelector = document.querySelector('#decks');
 const cardsSelector = document.querySelector('#cards');
+
+if (gameInProgress) {
+    newGameBtn.classList.remove('hide');
+}
 
 
 document.addEventListener('click', function(e) {
@@ -29,9 +33,9 @@ document.addEventListener('click', function(e) {
 
 // Start a new/next game from the homepage
 function startGame(game) {
-    if (game === 'new') {
+    /*if (game === 'new') {
         localStorage.setItem('current-streak', '0');
-    }
+    }*/
 
     localStorage.setItem('decks-setting', decksSelector.value);
     localStorage.setItem('cards-setting', cardsSelector.value);
