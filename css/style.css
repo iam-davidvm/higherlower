@@ -279,6 +279,8 @@ GAME AREA
         display: none;
     }
 
+    
+
     .streak {
         flex-direction: column;
     }
@@ -320,9 +322,6 @@ GAME AREA
     .play-area-chances {
         order: -1;
         margin: 0 0 2em;
-    }
-
-    .play-area-chances {
         flex-direction: row;
     }
 

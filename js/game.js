@@ -66,7 +66,7 @@ chancesBtn.addEventListener('click', function() {
         chancesBtn.setAttribute('data-chances', 'revealed');
         chancesRevealed = 'revealed';
         chancesBtn.innerHTML = '<span class="hide-mobile">Hide chances </span><i class="far fa-eye-slash"></i>';
-        chancesDisplay.style.display = 'inline-block';
+        chancesDisplay.style.display = 'inline';
         checkChances();
     }
 });
