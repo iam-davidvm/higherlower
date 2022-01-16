@@ -347,4 +347,11 @@ GAME AREA
         width: 80%;
     }    
     
+    .index-settings {
+        flex-direction: column;
+    }
+
+    .settings-decks {
+        margin-bottom: 1em;
+    }
 }
