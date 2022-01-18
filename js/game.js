@@ -419,7 +419,31 @@ function gameOver(result) {
     decksSelector.value = decksSetting;
     cardsSelector.value = cardsSetting;
 
-    winOrLoseMessage.textContent = `The last card was ${drawnCards[drawnCards.length - 1][2]}`;
+    // we want to visually show what the last card was
+    let lastCardNumber = 0;
+    let lastCardSuit = drawnCards[drawnCards.length - 1][1].slice(-1);
+
+    switch (lastCardSuit) {
+        case 'H': 
+            lastCardSuit = '<span class="red suit">&#9829;</span>';
+            break;
+        case 'D': 
+            lastCardSuit = '<span class="red suit">&#9830;</span>';
+            break;
+        case 'C': 
+            lastCardSuit = '<span class="suit">&#9827;</span>';
+            break;
+        case 'S': 
+            lastCardSuit = '<span class="suit">&#9824;</span>';
+            break;
+    }
+
+    if (drawnCards[drawnCards.length - 1][1].length === 3) {
+        lastCardNumber = drawnCards[drawnCards.length - 1][1].substring(0, 2);
+    } else {
+        lastCardNumber = drawnCards[drawnCards.length - 1][1].substring(0, 1);
+    }
+    winOrLoseMessage.innerHTML = `The last card was <strong>${lastCardNumber}${lastCardSuit}</strong>`;
 
     if (result === 'won') {
         currentStreak++;

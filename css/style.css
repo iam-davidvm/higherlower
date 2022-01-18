@@ -98,6 +98,14 @@ ul {
     padding: 1em;
 }
 
+.red {
+    color: #f00;
+}
+
+.suit {
+    font-size: 1.25rem;
+}
+
 /*########
 MODAL
 ########*/
